@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACM Deal or No Deal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>ACM DEAL OR NO DEAL</h1>
+        
+        <!-- Main game layout with sidebar -->
+        <div class="game-layout">
+            <!-- Main game section -->
+            <div class="main-section">
+                <div id="cases"></div>
+                <div id="game-message"></div>
+            </div>
+            
+            <!-- Sidebar for amounts and personal case -->
+            <div class="sidebar">
+                <h3>Your Case:</h3>
+                <div id="personal-case-box"></div>
+                <h3>Amounts Left:</h3>
+                <ul id="amounts-list"></ul>
+            </div>
+        </div>
+
+        <!-- Modal overlay for questions and offers -->
+        <div id="modal-overlay">
+            <div id="modal-content"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
