@@ -532,7 +532,12 @@ function showQuestion(category, caseId) {
     modal.innerHTML = `
         <div class="modal-title">${category}</div>
         <div id="timer-display" style="font-size: 1.4em; margin: 10px 0; font-weight: bold;">30s</div>
-        <div style="font-size: 1.2em; margin-bottom: 24px;">${questionObj.question}</div>
+        <div style="font-size: 1.2em; margin-bottom: 24px;">
+            ${category === 'Guess the Output' 
+                ? `<pre style="text-align: left; background: #f5f5f5; padding: 10px; border-radius: 4px; white-space: pre-wrap;">${questionObj.question}</pre>`
+                : questionObj.question
+            }
+        </div>
         <div class="modal-buttons" style="grid-template-columns: 1fr;">
             ${answers.map((answer, i) => `
                 <button onclick="handleAnswer(${caseId}, ${answer.isCorrect}, ${i})">${answer.text}</button>
