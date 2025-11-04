@@ -35,7 +35,7 @@ const QUESTIONS = {
         },
         {
             //actual question
-            question: "What is the lowest level of a computer?",
+            question: "Which of the following is the lowest level?",
             choices: ["Digital logic", "Instruction-set architecture", "Binary Tree", "Operating system"],
             correct: 0
         },
