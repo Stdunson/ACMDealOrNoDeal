@@ -342,6 +342,28 @@ const QUESTIONS = {
     ]
 };
 
+// Audio elements
+const gameAudio = {
+    mainTheme: new Audio('Music/main_theme.mp3'),
+    openingCase: new Audio('Music/opening_case.mp3'),
+    correctAnswer: new Audio('Music/correct.mp3'),
+    wrongAnswer: new Audio('Music/wrong.mp3'),
+    bankerTheme: new Audio('Music/banker_theme.mp3')
+};
+
+// Configure audio loops
+gameAudio.mainTheme.loop = true;
+gameAudio.openingCase.loop = true;
+gameAudio.bankerTheme.loop = true;
+
+// Function to stop all music
+function stopAllMusic() {
+    Object.values(gameAudio).forEach(audio => {
+        audio.pause();
+        audio.currentTime = 0;
+    });
+}
+
 // Game state
 let cases = [];
 let personalCase = null;
@@ -356,6 +378,7 @@ function initializeGame() {
     lastOpenedAmount = null;
     currentRound = 1;
     casesOpenedInRound = 0;
+
     
     // Initialize cases with random amounts
     const shuffledAmounts = [...CASE_AMOUNTS];
@@ -371,6 +394,7 @@ function initializeGame() {
     
     renderGame();
     setGameMessage("Choose your personal case!");
+
 }
 
 function shuffle(array) {
@@ -405,6 +429,10 @@ function renderCases() {
         
         casesContainer.appendChild(caseElement);
     });
+
+    // Start main theme
+    gameAudio.mainTheme.play();
+
 }
 
 function renderAmountsList() {
@@ -499,6 +527,10 @@ function showQuestion(category, caseId) {
     // Reset answer selected flag
     isAnswerSelected = false;
     
+    // Switch to opening case music
+    stopAllMusic();
+    gameAudio.openingCase.play();
+    
     // Get unused question for this category
     const categoryQuestions = QUESTIONS[category];
     const usedIndices = usedQuestions[category] || [];
@@ -561,6 +593,14 @@ function handleAnswer(caseId, correct, selectedAnswer) {
 }
 
 function answerQuestion(caseId, correct, selectedAnswer) {
+    // Play correct/wrong sound effect
+    stopAllMusic();
+    if (correct) {
+        gameAudio.correctAnswer.play();
+    } else {
+        gameAudio.wrongAnswer.play();
+    }
+    
     // Show feedback
     const modal = document.getElementById('modal-content');
     modal.innerHTML = `
@@ -578,6 +618,14 @@ function answerQuestion(caseId, correct, selectedAnswer) {
 }
 
 function proceedAfterAnswer(caseId, correct) {
+    // Return to main theme after sound effect
+    /*
+    setTimeout(() => {
+        stopAllMusic();
+        gameAudio.mainTheme.play();
+    }, 1500); // Wait 1.5 seconds for the sound effect to finish
+    */
+
     if (correct) {
         openCase(caseId);
     } else {
@@ -669,6 +717,10 @@ function calculateBankerOffer() {
 }
 
 function showBankerOffer() {
+    // Switch to banker theme
+    stopAllMusic();
+    gameAudio.bankerTheme.play();
+    
     const offer = calculateBankerOffer();
     const modal = document.getElementById('modal-content');
     modal.innerHTML = `
@@ -684,12 +736,18 @@ function showBankerOffer() {
 
 function acceptOffer(amount) {
     hideModal();
+    // Stop all music for game end
+    stopAllMusic();
     endGame('deal', amount);
 }
 
 function rejectOffer() {
     hideModal();
     setGameMessage("Select another case to open!");
+    
+    // Return to main theme
+    stopAllMusic();
+    gameAudio.mainTheme.play();
 }
 
 function endGame(result = 'no-deal', dealAmount = 0) {
